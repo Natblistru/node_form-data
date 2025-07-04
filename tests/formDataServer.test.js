@@ -39,7 +39,7 @@ describe('Form Data Server', () => {
         server.close();
       });
 
-      it('should save data for valid expense on "POST /submit-expense" request', async () => {
+      it('should save data for valid expense on "POST /add-expense" request', async () => {
         fs.writeFileSync(dataPath, JSON.stringify([]));
 
         const expense = {
@@ -53,6 +53,7 @@ describe('Form Data Server', () => {
 
         const savedData = JSON.parse(fs.readFileSync(dataPath));
 
+        expect(Array.isArray(savedData)).toBe(true);
         expect(savedData).toContainEqual(expense);
       });
 

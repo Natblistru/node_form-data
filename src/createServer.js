@@ -68,6 +68,21 @@ function createServer() {
       return res.end(JSON.stringify(expense, null, 2));
     }
 
+    if (req.method === 'GET' && url.pathname === '/') {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html');
+
+      return res.end(`
+
+      <form method="POST" action="/add-expense">
+        <label>Date: <input name="date" type="text" /></label><br/>
+        <label>Title: <input name="title" type="text" /></label><br/>
+        <label>Amount: <input name="amount" type="text" /></label><br/>
+        <button type="submit">Submit</button>
+      </form>
+    `);
+    }
+
     res.statusCode = 404;
     res.end('Not Found');
   });
