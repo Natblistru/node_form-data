@@ -37,8 +37,25 @@ function createServer() {
 
       const filePath = path.join(__dirname, '../db/expense.json');
 
+      let expenses = [];
+
       try {
-        fs.writeFileSync(filePath, JSON.stringify(expense, null, 2), 'utf8');
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+
+        expenses = JSON.parse(fileContent);
+
+        if (!Array.isArray(expenses)) {
+          expenses = [];
+        }
+      } catch (err) {
+        // Dacă fișierul nu există sau e invalid, începem cu un array gol
+        expenses = [];
+      }
+
+      expenses.push(expense);
+
+      try {
+        fs.writeFileSync(filePath, JSON.stringify(expenses, null, 2), 'utf8');
       } catch (err) {
         res.statusCode = 500;
 
